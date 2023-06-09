@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+name = "pypi"
+
+[packages]
+pyopenssl="*"
+cryptography="*"
+torch = "*"
+torchvision = "*"
+pillow = "*"
+python-dotenv = "*"
+gunicorn = "*"
+fastapi = "==0.61.1"
+uvicorn = "==0.11.8"
+python-multipart = "*"
+requests = "==2.24.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"

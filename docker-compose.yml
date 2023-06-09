@@ -1,0 +1,31 @@
+version: '3.4'
+services:
+  backend:
+    container_name: model-serving-backend
+    build:
+      context: ./backend
+      target: ${BACKEND_BUILD_TARGET} # use "prod" for production
+    volumes:
+       - ./backend:/app/backend
+    environment:
+      - MODEL_NAME=pytorch/vision:v0.10.0
+      - CNN_NET=resnet18
+    ports:
+      - "3080:8082"
+
+  frontend:
+      container_name: model-inferencing-frontend
+      build:
+        context: ./frontend
+        target: ${FRONTEND_BUILD_TARGET} # use "prod" for production
+        args:
+          MODEL_API_HOST: ${BACKEND_URL}
+      volumes:
+        - ./frontend:/app/frontend
+      environment:
+        - MODEL_API_HOST=${BACKEND_URL}
+        - IMAGE_CLASSIFICATION_ENDPOINT=/api/image-classification/predict
+      ports:
+        - "7860:7860"
+      depends_on:
+        - backend
